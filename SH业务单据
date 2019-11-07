@@ -1,0 +1,104 @@
+--门店业务单据抽取
+USE mySHOPSHStock
+
+--补货申请单
+delete from PurchaseAskItem0
+delete from PurchaseAsk0
+
+INSERT INTO PurchaseAsk0 SELECT * FROM myshopshstockold.dbo.PurchaseAsk0
+INSERT INTO dbo.PurchaseAskItem0 SELECT SheetID , serialid , GoodsID , PKNum , Qty , PKName , PKSpec , BarcodeID , Cost , Price , StockQty , SaleDate , ReceiptDate , PromotionType , NewFlag , Notes , MonthSaleQty , LastWeekSaleQty , KSDays , InputGoodsId , OrdDay , MakeUpInterval , DeliverDay , 0 , NULL , 0 , '' , 0 , NULL , NULL , NULL , NULL , 0 , NULL FROM myshopshstockold.dbo.PurchaseAskItem0
+
+--订货审批单
+delete from PurchaseConfirmItem0
+delete from PurchaseConfirm0
+
+INSERT INTO dbo.PurchaseConfirm0 SELECT SheetID , SgroupID , VenderID , PayTypeID , Purdate , Purday , OrdFlag , PurchaseFlag , Logistics , InFlag , Flag , Editor , EditDate , Operator , Checker , CheckDate , Notes , note1 , MasterVenderID , PrintCount , emailflag , PlaceID , CRReceiptFlag , PromType , DMPlanID , CMShopID , IsAdjust , NULL , NULL , NULL FROM myshopshstockold.dbo.purchaseconfirm0
+INSERT INTO dbo.PurchaseConfirmItem0 SELECT SheetID , ShopID , GoodsID , BarCodeID , Cost , Qty , PKNum , PresentQty , PromFlag , TaxRate , PKName , PKSpec , MonthSaleQty , StockQty , TodaySaleQty , OpenMakeupQty , OpenOrderQty , OpenRationQty , ThisWeekSaleQty , LastWeekSaleQty , ThisWeekAvgSaleQty , LastWeekAvgSaleQty , SaleDate , ReceiptDate , PromotionType , NewFlag , CostValue , Price , subitem_iid , RFirWQty , RSecWQty , RThrWQty , RFouWQty , cost2 , RetQty , Notes , InputGoodsId , LastMonthSaleQty , null , null , null , null , null , null , null , null , null , null FROM myshopshstockold.dbo.PurchaseConfirmItem0
+
+--验收/紧急验收
+delete from receiptItem0
+delete from receipt0
+
+INSERT INTO dbo.receipt0 SELECT SheetID , RefSheetID , ShopID , ReceiptFlag , VenderID , PayTypeID , Logistics , Flag , Editor , EditDate , Operator , Checker , CheckDate , Notes , managedeptid , PlaceID , MasterVenderID , transsheetid , PrintCount , Number , ReceiptMan , ArrivalRateFlag , KXCalculated , 0 FROM myshopshstockold.dbo.receipt0
+INSERT INTO dbo.ReceiptItem0  SELECT * FROM myshopshstockold.dbo.ReceiptItem0
+
+--配送返配入库-出库
+
+delete from RationItem0
+delete from Ration0
+INSERT INTO dbo.Ration0 SELECT SheetID , OutShopID , InShopID , PurDay , RetFlag , RationType , Flag , Editor , EditDate , Operator , Checker , CheckDate , managedeptid , OutPlaceID , InPlaceID , Note , SheetFlag , PrintCount , Logistics , CheckStockFlag , InChecker , InCheckDate , BatchFlag , null , null , 0 FROM myshopshstockold.dbo.Ration0
+INSERT INTO dbo.RationItem0 SELECT * FROM myshopshstockold.dbo.RationItem0
+
+--退货申请
+delete from retaskitem0
+delete from retask0
+
+INSERT INTO dbo.retask0  select SheetID , shopid , Retdate , BadFlag , Flag , Editor , EditDate , Operator , Checker , CheckDate , note , PrintCount , 0 from myshopshstockold.dbo.retask0
+INSERT INTO dbo.retaskitem0  SELECT SheetID , serialid , GoodsID , askqty , ReasonTypeID , reason , StockQty , logistics , PkNum , PKName , PKSpec , InputGoodsId , GETDATE() FROM myshopshstockold.dbo.retaskitem0
+
+--退货单
+delete from retitem0
+delete from ret0
+INSERT INTO dbo.ret0 select SheetID , refSheetID , shopid , VenderID , retdate , PayMoney , KxSumMoney , AcceptFlag , BadFlag , Notes , Flag , Editor , EditDate , Operator , Checker , FinChecker , CheckDate , managedeptid , PlaceID , MasterVenderID , PrintCount , emailflag , cPrintCount , costflag , overrule , KXCalculated , 0 from myshopshstockold.dbo.ret0
+INSERT INTO dbo.retitem0 SELECT * FROM myshopshstockold.dbo.retitem0
+
+--店间调拨
+delete from TransferItem0
+delete from Transfer0
+
+INSERT INTO dbo.Transfer0 select SheetID , OutShopID , InShopID , Purday , Flag , Editor , EditDate , Operator , Checker , CheckDate , managedeptid , note , InChecker , InCheckDate , OutChecker , OutCheckDate , OutPlaceID , InPlaceID , PrintCount , FreshFlag , OutCMShopID , InCMShopID , OutCMShopName , InCMShopName , InShopName , OutShopName , 0 , null , null,null,null from myshopshstockold.dbo.Transfer0
+--select * from transferitem0
+--select * from myshopshstockold.dbo.Transferitem0
+INSERT INTO dbo.TransferItem0 SELECT SheetID , GoodsID , DeptID , OutPrice , InPrice , PKNum , NotifyQty , Outqty , Inqty , CostValue , PKName , PKSpec , SerialID , notes , ProductDate , BatchNo , RemainDays , null,null FROM myshopshstockold.dbo.TransferItem0 
+          
+--批发申请
+delete from WholeSaleAskItem0
+delete from WholeSaleAsk0
+INSERT INTO dbo.WholeSaleAsk0 SELECT * from myshopshstockold.dbo.WholeSaleAsk0
+INSERT INTO dbo.WholeSaleAskItem0 SELECT * FROM myshopshstockold.dbo.WholeSaleAskItem0
+
+--批发单
+delete from WholeSaleItem0
+delete from WholeSale0
+INSERT INTO dbo.WholeSale0 select SheetID , ShopID , GuestID , RetFlag , Flag , Editor , EditDate , Operator , Checker , CheckDate , ManageDeptID , note , PlaceID , BadFlag , CRFlag , PrintCount , subcash , guestphone , PayNote , goodscostflag , RefSheetID , RefSheetType , 0 from myshopshstockold.dbo.WholeSale0
+INSERT INTO dbo.WholeSaleItem0 SELECT * FROM myshopshstockold.dbo.WholeSaleItem0
+
+--商品转码调拨单
+delete from TransferGoodsItem0
+delete from TransferGoods0
+INSERT INTO dbo.TransferGoods0 SELECT * from myshopshstockold.dbo.transferGoods0
+INSERT INTO dbo.TransferGoodsItem0  SELECT SheetID , outGoodsID , inGoodsID , OutQty , InQty , Note , cost , OutPalletID , InPalletID , 0 FROM myshopshstockold.dbo.TransferGoodsItem0
+
+--行政领用
+delete from XTranAskItem0
+delete from XTranAsk0
+delete from XTranItem0
+delete from dbo.XTran0
+
+INSERT INTO dbo.XTranAsk0 SELECT * from myshopshstockold.dbo.XTranAsk0
+INSERT INTO dbo.XTranAskItem0  SELECT SheetID , GoodsID , DeptID , Price , AskQty , CheckQty , Qty , 0 FROM myshopshstockold.dbo.XTranAskItem0
+INSERT INTO dbo.XTran0 SELECT * from myshopshstockold.dbo.XTran0
+INSERT INTO dbo.XTranItem0 SELECT SheetID , GoodsID , DeptID , Price , AskQty , CheckQty , Qty , 0 FROM myshopshstockold.dbo.XTranItem0 
+         
+--收银员长短款单
+delete from cashdiffitem0
+delete from cashdiff0
+
+INSERT INTO cashdiff0 SELECT * from myshopshstockold.dbo.cashdiff0
+INSERT INTO dbo.cashdiffitem0 SELECT * FROM myshopshstockold.dbo.cashdiffitem0
+
+--报损单
+delete from LostAskitem0
+delete from LostAsk0
+delete from Lostitem0
+delete from Lost0 
+
+INSERT INTO dbo.LostAsk0 select SheetID , shopid , Flag , Editor , EditDate , Operator , Checker , CheckDate , ManageDeptID , note , PlaceID , PrintCount , 0 from myshopshstockold.dbo.lostask0
+INSERT INTO dbo.LostAskitem0 SELECT * FROM myshopshstockold.dbo.LostAskitem0
+INSERT INTO dbo.Lost0  select SheetID , shopid , Flag , Editor , EditDate , Operator , Checker , CheckDate , ManageDeptID , note , PlaceID , PrintCount , 0 from myshopshstockold.dbo.Lost0
+INSERT INTO dbo.Lostitem0 SELECT * FROM myshopshstockold.dbo.Lostitem0
+
+--店间调拨记帐单--三个业务库
+INSERT INTO dbo.TransferCostItem SELECT SheetID , GoodsCostID , GoodsID , FromShopID , VenderID , PayTypeID , Qty , Cost , TaxRate , PromFlag , SerialID , GETDATE() FROM myshopshstockold.dbo.TransferCostItem
+--配送记帐单-- 门店和配送
+INSERT INTO dbo.RationCostItem SELECT SheetID , GoodsCostID , GoodsID , FromShopID , VenderID , PayTypeID , Qty , Cost , TaxRate , PromFlag , RationCost , SerialID , GETDATE() , 0 FROM myshopshstockold.dbo.RationCostItem 
