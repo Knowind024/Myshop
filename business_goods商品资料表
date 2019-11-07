@@ -1,0 +1,48 @@
+CREATE TABLE [dbo].[BUSINESS_GOODS] (
+	[BARCODE] [varchar] (20)  NOT NULL ,	--商品条码,主键
+	[GZ] [varchar] (20)  NOT NULL ,		--商品柜组,主键,唯一键
+	[CODE] [varchar] (20)  NOT NULL ,	--商品编码,唯一键
+	[UID] [varchar] (2)  NOT NULL ,		--多单位码,唯一键
+	[SPTYPE] [char] (1)  NULL ,		--编码类型(P/Z)	
+	[NAME] [varchar] (60)  NULL ,		--商品名称
+	[CATID] [varchar] (10)  NULL ,		--商品品类
+	[PPCODE] [varchar] (10)  NULL ,		--商品品牌
+	[UNIT] [varchar] (20)  NULL ,		--商品单位
+	[SPECINFO] [varchar] (20)  NULL ,	--商品规格,BHLS:满减满赠规则促销的促销属性码
+	[BZHL] [numeric](12, 2) NULL ,		--包装含量
+	[LSJ] [numeric](12, 2) NULL ,		--零售价
+	[HYJ] [numeric](12, 2) NULL ,		--会员价
+	[HYJZKFD] [numeric](12, 4) NULL ,	--会员价折扣分担
+	[PFJ] [numeric](12, 2) NULL ,		--批发价
+	[PFJZKFD] [numeric](12, 4) NULL ,	--批发价折扣分担
+	[XXTAX] [numeric](12, 2) NULL ,		--销项税,BHLS:如果rxxtax>=1则打印促销联
+	[XJJG] [numeric](12, 2) NULL ,		--削价价格，=0无削价
+	[JGJD] [numeric](12, 2) NULL ,		--价格精度
+	[MINPLSL] [int] NULL ,			--最底批量数量,0-无批量
+	[ISUID] [char] (1)  NULL ,		--多单位标志（Y/N）
+	[ISBATCH] [char] (1)  NULL ,		--是否输入批号标志（Y/N）
+	[ISSQKZK] [char] (1)  NULL ,		--是否允许授权折扣（Y/N）
+	[ISVIPZK] [char] (1)  NULL ,		--是否允许VIP折扣（Y/N）
+	[ISZS] [char] (1)  NULL ,		--是否有赠送,BHLS:特卖码是否允许销售
+	[ISDZC] [char] (1)  NULL ,		--是否电子秤商品
+	[ISPJ] [char] (1)  NULL ,		--是否有配件
+	[ISZT] [char] (1)  NULL ,		--是否自提商品
+	[MAXZKL] [numeric](10, 4) NULL ,	--最底折扣率
+	[ISCHGJG] [char] (1)  NULL ,		--是否允许议价
+	[MAXZKE] [numeric](12, 2) NULL ,	--最底限价价格
+	[FXM] [varchar] (20)  NULL ,		--分析码
+	[MANAGEMODE] [char] (1)  NULL ,		--编码管理方法(0-单品管理/1-金额码管理) BSTD:后单压前单通过当前标志确认
+	[MEMO] [varchar] (100)  NULL ,		--备注,BHLS:电子券收券规则(收券活动单号,收券规则码,收券规则单据号,B收券模式(6-满收/3-按比例收),B满收条件金额,A收券模式(6-满收/3-按比例收),A满收条件金额)
+	[STR1] [varchar] (100)  NULL ,		--备用字段,HZJB:判断是否输入KEY键 Y:必须输入K值,BJYS:判断商品是否参与积分
+	[STR2] [varchar] (100)  NULL ,
+	[STR3] [varchar] (100)  NULL ,
+	[STR4] [varchar] (100)  NULL ,		--备用字段, CCZZ:收券规则
+	[STR5] [varchar] (100)  NULL ,
+	[NUM1] [numeric](12, 2) NULL ,		--备用字段,BHLS:电子券收A券比例/A券满收金额
+	[NUM2] [numeric](12, 2) NULL ,		--备用字段,BHLS:电子券收B券比例/B券满收金额
+	[NUM3] [numeric](12, 2) NULL ,		--备用字段,BHLS:电子券收F券比例/F券满收金额
+	[NUM4] [numeric](12, 2) NULL ,		--备用字段,BHLS:是否折上折 0-不折上折 1-折上折
+	[NUM5] [numeric](12, 2) NULL ,
+	[mkt] [varchar] (10)  NULL ,
+	PRIMARY KEY (BARCODE,GZ)
+) 
