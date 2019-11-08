@@ -1,0 +1,70 @@
+--查看当前链接情况：
+
+select * from sys.servers;
+
+--使用 sp_helpserver 来显示可用的服务器
+
+Exec sp_helpserver
+
+--删除已经存在的某个链接
+
+Exec sp_droplinkedsrvlogin 服务器别名,Null
+Exec sp_dropserver 服务器别名
+
+--使用sp_addlinkedserver来增加链接
+
+EXEC sp_addlinkedserver
+@server='192.168.2.66',--被访问的服务器别名（习惯上直接使用目标服务器IP，或取个别名如：JOY）
+@srvproduct='',
+@provider='SQLOLEDB',
+@datasrc='192.168.2.66' --要访问的服务器
+
+--使用sp_addlinkedsrvlogin 来增加用户登录链接
+
+EXEC sp_addlinkedsrvlogin
+'192.168.2.66', --被访问的服务器别名（如果上面sp_addlinkedserver中使用别名JOY，则这里也是JOY）
+'false',
+NULL,
+'sa', --帐号
+'test123' --密码
+
+使用举例(访问目标服务器上的数据库Music，查看其中表test的内容)：
+
+如果建立链接时的别名是目标服务器IP，即192.168.2.66
+
+则：
+
+select * from [192.168.2.66].[Music].dbo.test
+如果建立链接时的别名是JOY,
+
+则：
+
+select * from [JOY].[Music].dbo.test
+
+ 
+
+可能会遇到的问题：
+exec sp_dropserver 'JOY'执行失败，
+
+报错信息：仍有对服务器 'JOY' 的远程登录或链接登录。
+
+解决方法：
+
+exec sp_droplinkedsrvlogin 'JOY',null
+
+exec sp_dropserver 'JOY'
+
+
+select * from sys.servers;
+
+Exec sp_helpserver
+
+Exec sp_dropserver 'QPAccountsDBLink'
+
+
+EXEC sp_addlinkedserver
+@server='XFGameWebLink',--被访问的服务器别名（习惯上直接使用目标服务器IP，或取个别名如：JOY）
+@srvproduct='XFGameWebLink',
+@provider='SQLOLEDB',
+@datasrc='127.0.0.1', --要访问的服务器
+@catalog='QPWXFGame'
